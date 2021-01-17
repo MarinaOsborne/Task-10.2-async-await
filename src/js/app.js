@@ -1,82 +1,29 @@
 
 // console.log('worked');
 
-export class Character {
-  constructor(name, type, attack, defence) {
-    this.name = name;
-    this.type = type;
-    this.health = 100;
-    this.level = 1;
-    this.attack = attack;
-    this.defence = defence;
-    if (typeof this.name !== 'string' || this.name.length < 3 || this.name.length > 10) {
-      throw new Error('Введите корректное значение');
-    }
-  }
-}
+export const compareLetters = (a, b) => {
+  if (a.key < b.key) return -1;
+  if (a.key > b.key) return 1;
+  return 0;
+};
 
-export class Bowman extends Character {
-  constructor(name, type, health, level) {
-    super(name, type, health, level);
-    this.attack = 25;
-    this.defence = 25;
-    if (this.type !== 'Bowman') {
-      throw new Error('Введите корректное значение');
-    }
-  }
-}
+export default function orderByProps(obj, arr) {
+  const newObj = [];
+  const newObj2 = [];
 
-export class Swordsman extends Character {
-  constructor(name, type, health, level) {
-    super(name, type, health, level);
-    this.attack = 40;
-    this.defence = 110;
-    if (this.type !== 'Swordsman') {
-      throw new Error('Введите корректное значение');
+  for (const prop in obj) {
+    if (prop === arr[0] || prop === arr[1]) {
+      const firstobj = { key: prop, value: obj[prop] };
+      newObj.push(firstobj);
+    } else {
+      const secondobj = { key: prop, value: obj[prop] };
+      newObj2.push(secondobj);
     }
   }
-}
 
-export class Magician extends Character {
-  constructor(name, type, health, level) {
-    super(name, type, health, level);
-    this.attack = 10;
-    this.defence = 40;
-    if (this.type !== 'Magician') {
-      throw new Error('Введите корректное значение');
-    }
+  for (let i = 0; i < newObj2.length; i += 1) {
+    newObj2.sort(compareLetters);
+    newObj.push(newObj2[i]);
   }
-}
-
-export class Undead extends Character {
-  constructor(name, type, health, level) {
-    super(name, type, health, level);
-    this.attack = 25;
-    this.defence = 25;
-    if (this.type !== 'Undead') {
-      throw new Error('Введите корректное значение');
-    }
-  }
-}
-
-export class Zombie extends Character {
-  constructor(name, type, health, level) {
-    super(name, type, health, level);
-    this.attack = 40;
-    this.defence = 10;
-    if (this.type !== 'Zombie') {
-      throw new Error('Введите корректное значение');
-    }
-  }
-}
-
-export class Daemon extends Character {
-  constructor(name, type, health, level) {
-    super(name, type, health, level);
-    this.attack = 10;
-    this.defence = 40;
-    if (this.type !== 'Daemon') {
-      throw new Error('Введите корректное значение');
-    }
-  }
+  return newObj;
 }

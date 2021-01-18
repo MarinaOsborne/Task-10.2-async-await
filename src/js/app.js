@@ -12,12 +12,19 @@ export default function orderByProps(obj, arr) {
   const newObj2 = [];
 
   for (const prop in obj) {
-    if (prop === arr[0] || prop === arr[1]) {
-      const firstobj = { key: prop, value: obj[prop] };
-      newObj.push(firstobj);
-    } else {
-      const secondobj = { key: prop, value: obj[prop] };
-      newObj2.push(secondobj);
+    for (let i = 0; i < arr.length; i += 1) {
+      if (prop === arr[i]) {
+        newObj.push({ key: prop, value: obj[prop] });
+      }
+    }
+  }
+
+  for (const prop in obj) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr.includes(prop, 0) === false) {
+        newObj2.push({ key: prop, value: obj[prop] });
+      }
+      break;
     }
   }
 

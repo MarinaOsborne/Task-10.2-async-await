@@ -19,18 +19,6 @@ test('проверка add', () => {
   }]);
 });
 
-test('проверка add error', () => {
-  const team = new Team([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }]);
-
-  expect(team.add({
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  })).toThrow();
-});
-
 test('проверка addAll', () => {
   const team = new Team([{
     name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
@@ -67,4 +55,16 @@ test('проверка toArray', () => {
   }, {
     name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
   }]);
+});
+
+test('test error', () => {
+  const received = new Team();
+  received.add({
+    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
+  });
+  expect(() => {
+    received.add({
+      name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
+    });
+  }).toThrow();
 });

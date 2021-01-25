@@ -1,29 +1,45 @@
-// console.log('worked');
+// // console.log('worked');
+import Character from './character';
 
-export default class Team {
-  constructor(members) {
-    this.members = new Set(members);
+export default class MathChar extends Character {
+  constructor(name, type, stoned, distance) {
+    super(name, type);
+    this._stoned = stoned;
+    this.distance = distance;
+    this._attack = 100;
+    this.defence = 40;
   }
 
-  add(character) {
-    Array.from(this.members).forEach((member) => {
-      if (member.name === character.name && member.type === character.type && member.attack === character.attack && member.defence === character.defence) {
-        throw new Error('Такой персонаж уже существует');
-      }
-    });
-    return this.members.add(character);
+  get stoned() {
+    return this._stoned;
   }
 
-  addAll(...characters) {
-    const members = Array.from(this.members);
-    const charactersArr = Array.from(characters);
-    const arrOut = charactersArr.filter((e) => members.every((k) => k.name !== e.name));
-    for (const elem of arrOut) {
-      this.members.add(elem);
+  set stoned(value) {
+    this._stoned = value;
+  }
+
+  get attack() {
+    const attack = this._attack - (this._attack * (1 - ((this.distance - 1) / 10)));
+    if (this.distance > 10) return 0;
+    if (!this._stoned) {
+      return attack;
     }
+    return attack < 0 ? 0 : Math.round(attack - Math.log2(this.distance) * 5);
   }
 
-  toArray() {
-    return Array.from(this.members);
+  set attack(attack) {
+    this._attack = attack;
+  }
+}
+
+export class Magician extends MathChar {
+  constructor(...args) {
+    super(...args, 'Magician');
+  }
+}
+
+export class Daemon extends MathChar {
+  constructor(...args) {
+    super(...args, 'Daemon');
   }
 }

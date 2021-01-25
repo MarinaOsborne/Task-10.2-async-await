@@ -1,70 +1,45 @@
-import Team from '../app';
+import MathChar, { Magician, Daemon } from '../app';
+import Character from '../character';
 
-test('проверка add', () => {
-  const team = new Team([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }]);
-  team.add({
-    name: 'Саша', type: 'Bowman', attack: 20, defence: 40,
-  });
-
-  expect(Array.from(team.members)).toEqual([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Саша', type: 'Bowman', attack: 20, defence: 40,
-  }]);
+test('проверка attack', () => {
+  const received = new Magician('Иван', 'Magician', true, 8);
+  expect(received.attack).toEqual(55);
 });
 
-test('проверка addAll', () => {
-  const team = new Team([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }]);
-
-  team.addAll({
-    name: 'Паша', type: 'Bowman', attack: 20, defence: 40,
-  },
-  {
-    name: 'Маша', type: 'Bowman', attack: 20, defence: 40,
-  });
-  expect(Array.from(team.members)).toEqual([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Паша', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Маша', type: 'Bowman', attack: 20, defence: 40,
-  }]);
+test('проверка distance', () => {
+  const received = new Magician('Иван', 'Magician', true, 18);
+  expect(received.attack).toEqual(0);
 });
 
-test('проверка toArray', () => {
-  const team = new Team([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }]);
-
-  expect(team.toArray()).toEqual([{
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  }, {
-    name: 'Петя', type: 'Bowman', attack: 20, defence: 40,
-  }]);
+test('проверка stoned false', () => {
+  const received = new Magician('Иван', 'Magician', false, 3);
+  expect(received.attack).toEqual(20);
 });
 
-test('test error', () => {
-  const received = new Team();
-  received.add({
-    name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-  });
+test('проверка stoned', () => {
+  const received = new Magician('Иван', 'Magician', false, 3);
+  expect(received.stoned).toEqual(false);
+});
+
+test('проверка attack', () => {
+  const received = new Daemon('Иван', 'Daemon', true, 8);
+  expect(received.attack).toEqual(55);
+});
+
+test('проверка длины имени <3', () => {
   expect(() => {
-    received.add({
-      name: 'Вася', type: 'Bowman', attack: 20, defence: 40,
-    });
+    new Character('хз', 'Swordsman', 10, 40);
+  }).toThrow();
+});
+
+test('проверка длины имени >10', () => {
+  expect(() => {
+    new Character('хзuhhgfhfhfjjjsd', 'Swordsman', 10, 40);
+  }).toThrow();
+});
+
+test('проверка string', () => {
+  expect(() => {
+    new Character(7, 'Swordsman', 10, 40);
   }).toThrow();
 });
